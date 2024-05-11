@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sound Buttons</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+    }
+    #container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+    button {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #pauseButton {
+      background-color: #ff3333;
+      color: #fff;
+    }
+    button.soundButton {
+      background-color: #4b0082;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Sound Buttons</h1>
+    <button class="soundButton" onclick="playSound('ocean_waves_3_seconds.wav')">Sound 1</button>
+    <button class="soundButton" onclick="playSound('sound2.mp3')">Sound 2</button>
+    <button class="soundButton" onclick="playSound('sound3.mp3')">Sound 3</button>
+    <button class="soundButton" onclick="playSound('sound4.mp3')">Sound 4</button>
+    <button id="pauseButton" onclick="togglePause()">Pause</button>
+  </div>
+
+  <script>
+    var audioElement = null;
+    var currentSound = null;
+
+    function playSound(soundFile) {
+      if (currentSound !== soundFile) {
+        stopSound();
+        audioElement = new Audio(soundFile);
+        audioElement.play();
+        currentSound = soundFile;
+      } else {
+        audioElement.play();
+      }
+    }
+
+    function stopSound() {
+      if (audioElement !== null) {
+        audioElement.pause();
+        audioElement.currentTime = 0;
+      }
+    }
+
+    function togglePause() {
+      if (audioElement !== null) {
+        if (audioElement.paused) {
+          audioElement.play();
+        } else {
+          audioElement.pause();
+        }
+      }
+    }
+  </script>
+</body>
+</html>
