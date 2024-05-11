@@ -42,14 +42,21 @@
 </head>
 <body>
   <div id="container">
-    <h1>Sound Buttons</h1>
-    <button class="soundButton" onclick="playSound('ocean_waves_3_seconds.wav')">Sound 1</button>
-    <button class="soundButton" onclick="playSound('sound2.mp3')">Sound 2</button>
-    <button class="soundButton" onclick="playSound('sound3.mp3')">Sound 3</button>
-    <button class="soundButton" onclick="playSound('sound4.mp3')">Sound 4</button>
-    <button id="pauseButton" onclick="togglePause()">Pause</button>
-  </div>
+    <h1>Personal Prayer Timer</h1>
+    <button class="soundButton" onclick="playSound('ocean_waves_15_minutes.mp3')">Fifteen minutes</button>
+    <button class="soundButton" onclick="playSound('ocean_waves_20_minutes.mp3')">Twenty minutes</button>
+    <button class="soundButton" onclick="playSound('ocean_waves_25_minutes.mp3')">Twenty-five minutes</button>
+    <button class="soundButton" onclick="playSound('ocean_waves_30_minutes.mp3')">Thirty minutes</button>
 
+	
+    <button class="soundButton" onclick="playSound('ocean_waves_3_seconds.mp3')">Sample sound</button>
+    <button id="pauseButton" onclick="togglePause()">Pause</button>
+	
+
+  </div>
+  <p>
+  <p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p>
+	<p>By ABrownComputing</p>
   <script>
     var audioElement = null;
     var currentSound = null;
@@ -73,10 +80,14 @@
     }
 
     function togglePause() {
-      if (audioElement !== null) {
-        if (audioElement.paused) {
-          audioElement.play();
+		var pauseButton = document.getElementById('pauseButton');
+		if (audioElement !== null) {
+			if (audioElement.paused) {
+			pauseButton.textContent = 'Pause';
+            audioElement.play();
         } else {
+		    pauseButton.textContent = 'Play';
+  
           audioElement.pause();
         }
       }
