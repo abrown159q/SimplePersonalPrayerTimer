@@ -43,20 +43,26 @@
 <body>
   <div id="container">
     <h1>Simple Personal Prayer Timer</h1>
-
-    <button id="pauseButton" onclick="togglePause()">Pause</button>
-    <br>
-    <button class="soundButton" id="sound1">Sample sound</button>
-    <button class="soundButton" id="sound2">Fifteen minutes</button>
-    <button class="soundButton" id="sound3">Twenty minutes</button>
-    <button class="soundButton" id="sound4">Twenty-five minutes</button>
-    <button class="soundButton" id="sound5">Thirty minutes</button>
+	<p>Select below to choose your prefered alarm sound</p>
 	    <select id="soundSelect" onchange="setAllSounds(this.value)">
       <option value="beach">Beach</option>
       <option value="rain">Rain</option>
       <option value="birds">Birds</option>
       <option value="bells">Bells</option>
     </select>
+    <br>
+    <button class="soundButton" id="sound1">Sample sound</button>
+	<br>
+    <button class="soundButton" id="sound2">Fifteen minutes</button>
+    <br>
+	<button class="soundButton" id="sound3">Twenty minutes</button>
+    <br>
+	<button class="soundButton" id="sound4">Twenty-five minutes</button>
+    <br>
+	<button class="soundButton" id="sound5">Thirty minutes</button>
+	<br>
+    <button id="pauseButton" onclick="togglePause()">Pause</button>
+
   </div>
   
 	<p>By Alex Brown</p>
