@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Personal Prayer Timer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+    }
+    #container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+    button {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #pauseButton {
+      background-color: #ff3333;
+      color: #fff;
+    }
+    button.soundButton {
+      background-color: #4b0082;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Personal Prayer Timer</h1>
+    <button class="soundButton" onclick="playSound('ocean_waves_15_minutes.mp3')">Fifteen minutes</button>
+    <button class="soundButton" onclick="playSound('ocean_waves_20_minutes.mp3')">Twenty minutes</button>
+    <button class="soundButton" onclick="playSound('ocean_waves_25_minutes.mp3')">Twenty-five minutes</button>
+    <button class="soundButton" onclick="playSound('ocean_waves_30_minutes.mp3')">Thirty minutes</button>
+
+	
+    <button class="soundButton" onclick="playSound('ocean_waves_3_seconds.mp3')">Sample sound</button>
+    <button id="pauseButton" onclick="togglePause()">Pause</button>
+	
+
+  </div>
+  <p>
+	<p>By ABrownComputing</p>
+	<p>Dedicated to L.L.E.B. on Mother's Day 12 May 2024</p>
+  <script>
+    var audioElement = null;
+    var currentSound = null;
+
+    function playSound(soundFile) {
+      if (currentSound !== soundFile) {
+        stopSound();
+        audioElement = new Audio(soundFile);
+        audioElement.play();
+        currentSound = soundFile;
+      } else {
+        audioElement.play();
+      }
+    }
+
+    function stopSound() {
+      if (audioElement !== null) {
+        audioElement.pause();
+        audioElement.currentTime = 0;
+      }
+    }
+
+    function togglePause() {
+		var pauseButton = document.getElementById('pauseButton');
+		if (audioElement !== null) {
+			if (audioElement.paused) {
+			pauseButton.textContent = 'Pause';
+            audioElement.play();
+        } else {
+		    pauseButton.textContent = 'Play';
+  
+          audioElement.pause();
+        }
+      }
+    }
+  </script>
+</body>
+</html>

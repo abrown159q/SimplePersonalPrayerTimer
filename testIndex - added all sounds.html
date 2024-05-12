@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sound Buttons</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+    }
+    #container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+    button {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #pauseButton {
+      background-color: #ff3333;
+      color: #fff;
+    }
+    button.soundButton {
+      background-color: #4b0082;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Sound Buttons</h1>
+    <select id="soundSelect" onchange="setAllSounds(this.value)">
+      <option value="beach">Beach</option>
+      <option value="rain">Rain</option>
+      <option value="birds">Birds</option>
+      <option value="bells">Bells</option>
+    </select>
+    <button id="pauseButton" onclick="togglePause()">Pause</button>
+    <br>
+    <button class="soundButton" id="sound1">Sample sound</button>
+    <button class="soundButton" id="sound2">Fifteen minutes</button>
+    <button class="soundButton" id="sound3">Twenty minutes</button>
+    <button class="soundButton" id="sound4">Twenty-five minutes</button>
+    <button class="soundButton" id="sound5">Thirty minutes</button>
+  </div>
+
+  <script>
+    var audioElement = null;
+    var currentSound = null;
+    var isPaused = false;
+
+    // Load saved sound selection from local storage
+    var savedSound = localStorage.getItem('selectedSound');
+    if (savedSound) {
+      document.getElementById('soundSelect').value = savedSound;
+      setAllSounds(savedSound);
+    }
+
+    function playSound(soundFile, buttonId) {
+      if (currentSound !== soundFile) {
+        stopSound();
+        audioElement = new Audio(soundFile);
+        audioElement.play();
+        currentSound = soundFile;
+        isPaused = false;
+        updatePauseButton();
+        highlightButton(buttonId);
+      } else {
+        audioElement.play();
+        isPaused = false;
+        updatePauseButton();
+        highlightButton(buttonId);
+      }
+    }
+
+    function stopSound() {
+      if (audioElement !== null) {
+        audioElement.pause();
+        audioElement.currentTime = 0;
+      }
+    }
+
+    function togglePause() {
+      if (audioElement !== null) {
+        if (audioElement.paused) {
+          audioElement.play();
+          isPaused = false;
+        } else {
+          audioElement.pause();
+          isPaused = true;
+        }
+        updatePauseButton();
+      }
+    }
+
+    function updatePauseButton() {
+      var pauseButton = document.getElementById('pauseButton');
+      if (isPaused) {
+        pauseButton.textContent = 'Play';
+      } else {
+        pauseButton.textContent = 'Pause';
+      }
+    }
+
+    function highlightButton(buttonId) {
+      var buttons = document.querySelectorAll('.soundButton');
+      buttons.forEach(function(button) {
+        button.style.backgroundColor = '';
+      });
+      var pressedButton = document.getElementById(buttonId);
+      pressedButton.style.backgroundColor = '#ffcc00'; // Change to desired color
+    }
+
+    function setAllSounds(soundType) {
+      stopSound();
+      for (var i = 1; i <= 5; i++) {
+		var extensions = ["_3_seconds", "_15_minutes", "_20_minutes", "_25_minutes", "_30_minutes"] 
+        var soundFile = soundType + extensions[i-1] + '.mp3';
+        var buttonId = 'sound' + i;
+        document.getElementById(buttonId).setAttribute('onclick', "playSound('" + soundFile + "', '" + buttonId + "')");
+      }
+      currentSound = soundType + '1.mp3';
+
+      // Save selected sound to local storage
+      localStorage.setItem('selectedSound', soundType);
+    }
+  </script>
+</body>
+</html>

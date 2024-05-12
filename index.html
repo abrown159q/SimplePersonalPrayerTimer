@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simple Personal Prayer Timer</title>
+  <title>Sound Buttons</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -42,32 +42,51 @@
 </head>
 <body>
   <div id="container">
-    <h1>Personal Prayer Timer</h1>
-    <button class="soundButton" onclick="playSound('ocean_waves_15_minutes.mp3')">Fifteen minutes</button>
-    <button class="soundButton" onclick="playSound('ocean_waves_20_minutes.mp3')">Twenty minutes</button>
-    <button class="soundButton" onclick="playSound('ocean_waves_25_minutes.mp3')">Twenty-five minutes</button>
-    <button class="soundButton" onclick="playSound('ocean_waves_30_minutes.mp3')">Thirty minutes</button>
+    <h1>Sound Buttons</h1>
 
-	
-    <button class="soundButton" onclick="playSound('ocean_waves_3_seconds.mp3')">Sample sound</button>
     <button id="pauseButton" onclick="togglePause()">Pause</button>
-	
-
+    <br>
+    <button class="soundButton" id="sound1">Sample sound</button>
+    <button class="soundButton" id="sound2">Fifteen minutes</button>
+    <button class="soundButton" id="sound3">Twenty minutes</button>
+    <button class="soundButton" id="sound4">Twenty-five minutes</button>
+    <button class="soundButton" id="sound5">Thirty minutes</button>
+	    <select id="soundSelect" onchange="setAllSounds(this.value)">
+      <option value="beach">Beach</option>
+      <option value="rain">Rain</option>
+      <option value="birds">Birds</option>
+      <option value="bells">Bells</option>
+    </select>
   </div>
-  <p>
-	<p>By ABrownComputing</p>
+  
+	<p>By Alex Brown</p>
+	<p>Dedicated to L.L.E.B. on Mother's Day 12 May 2024</p>
   <script>
     var audioElement = null;
     var currentSound = null;
+    var isPaused = false;
 
-    function playSound(soundFile) {
+    // Load saved sound selection from local storage
+    var savedSound = localStorage.getItem('selectedSound');
+    if (savedSound) {
+      document.getElementById('soundSelect').value = savedSound;
+      setAllSounds(savedSound);
+    }
+
+    function playSound(soundFile, buttonId) {
       if (currentSound !== soundFile) {
         stopSound();
         audioElement = new Audio(soundFile);
         audioElement.play();
         currentSound = soundFile;
+        isPaused = false;
+        updatePauseButton();
+        highlightButton(buttonId);
       } else {
         audioElement.play();
+        isPaused = false;
+        updatePauseButton();
+        highlightButton(buttonId);
       }
     }
 
@@ -79,17 +98,48 @@
     }
 
     function togglePause() {
-		var pauseButton = document.getElementById('pauseButton');
-		if (audioElement !== null) {
-			if (audioElement.paused) {
-			pauseButton.textContent = 'Pause';
-            audioElement.play();
+      if (audioElement !== null) {
+        if (audioElement.paused) {
+          audioElement.play();
+          isPaused = false;
         } else {
-		    pauseButton.textContent = 'Play';
-  
           audioElement.pause();
+          isPaused = true;
         }
+        updatePauseButton();
       }
+    }
+
+    function updatePauseButton() {
+      var pauseButton = document.getElementById('pauseButton');
+      if (isPaused) {
+        pauseButton.textContent = 'Play';
+      } else {
+        pauseButton.textContent = 'Pause';
+      }
+    }
+
+    function highlightButton(buttonId) {
+      var buttons = document.querySelectorAll('.soundButton');
+      buttons.forEach(function(button) {
+        button.style.backgroundColor = '';
+      });
+      var pressedButton = document.getElementById(buttonId);
+      pressedButton.style.backgroundColor = '#ffcc00'; // Change to desired color
+    }
+
+    function setAllSounds(soundType) {
+      stopSound();
+      for (var i = 1; i <= 5; i++) {
+		var extensions = ["_3_seconds", "_15_minutes", "_20_minutes", "_25_minutes", "_30_minutes"] 
+        var soundFile = soundType + extensions[i-1] + '.mp3';
+        var buttonId = 'sound' + i;
+        document.getElementById(buttonId).setAttribute('onclick', "playSound('" + soundFile + "', '" + buttonId + "')");
+      }
+      currentSound = soundType + '1.mp3';
+
+      // Save selected sound to local storage
+      localStorage.setItem('selectedSound', soundType);
     }
   </script>
 </body>
